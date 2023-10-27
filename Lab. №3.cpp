@@ -74,6 +74,15 @@ public:
 	int get_track_number() const { return track_number; }
 	int get_max_people_amount() const { return max_people_amount; }
 	int get_people_amount() const { return people_amount; }
+	int get_human_age_by_index(int _human_age_index) const
+	{
+		int human_age = 0;
+		if (_human_age_index < people_amount)
+		{
+			human_age = peoples_ages[_human_age_index];
+		}
+		return (human_age);
+	}
 	void set_track_number(int _settable_track_number)
 	{
 		if (_settable_track_number >= 0)
@@ -84,6 +93,17 @@ public:
 		{
 			track_number = 0;
 		}
+	}
+	bool add_human_age(int _human_age)
+	{
+		bool result = false;
+		if (people_amount < max_people_amount)
+		{
+			peoples_ages[people_amount] = _human_age;
+			people_amount++;
+			result = true;
+		}
+		return (result);
 	}
 };
 
@@ -134,7 +154,7 @@ public:
 		adults_tracks = new adults_track * [max_adults_tracks_amount];
 		for (i = 0; i < max_adults_tracks_amount; i++)
 		{
-			adults_tracks[i] - new adults_track(i + 1, 10, 0);
+			adults_tracks[i] = new adults_track(i + 1, 10, 0);
 		}
 		max_depth = 5.0;
 		lenght = 25.0;
@@ -158,7 +178,7 @@ public:
 		{
 			max_childrens_tracks_amount = 2;
 		}
-		if (_childrens_tracks_amount <= _max_childrens_tracks_amount && _childrens_tracks_amount >= 0)
+		if (_childrens_tracks_amount <= _max_childrens_tracks_amount && _childrens_tracks_amount >= 1)
 		{
 			childrens_tracks_amount = _childrens_tracks_amount;
 		}
@@ -179,7 +199,7 @@ public:
 		{
 			max_adults_tracks_amount = 3;
 		}
-		if (_adults_tracks_amount <= _max_adults_tracks_amount && _adults_tracks_amount >= 0)
+		if (_adults_tracks_amount <= _max_adults_tracks_amount && _adults_tracks_amount >= 1)
 		{
 			adults_tracks_amount = _adults_tracks_amount;
 		}
@@ -210,7 +230,7 @@ public:
 			{
 				for (j = 0; j < src_object.childrens_tracks[i]->get_people_amount(); j++)
 				{
-					// childrens_tracks[i]->add_human_age(src_object.childrens_tracks[i]->get_human_age_by_index(i));
+					childrens_tracks[i]->add_human_age(src_object.childrens_tracks[i]->get_human_age_by_index(i));
 				}
 			}
 		}
@@ -226,7 +246,7 @@ public:
 			{
 				for (j = 0; j < src_object.adults_tracks[i]->get_people_amount(); j++)
 				{
-					// adults_tracks[i]->add_human_age(src_object.adults_tracks[i]->get_human_age_by_index(i));
+					adults_tracks[i]->add_human_age(src_object.adults_tracks[i]->get_human_age_by_index(i));
 				}
 			}
 		}
@@ -247,14 +267,101 @@ public:
 		}
 		delete[]adults_tracks;
 	}
+	int get_swimming_pool_number() const { return swimming_pool_number; }
+	int get_max_childrens_tracks_amount() const { return max_childrens_tracks_amount; }
+	int get_childrens_tracks_amount() const { return childrens_tracks_amount; }
+	int get_max_adults_tracks_amount() const { return max_adults_tracks_amount; }
+	int get_adults_tracks_amount() const { return adults_tracks_amount; }
+	double get_max_depth() const { return max_depth; }
+	double get_lenght() const { return lenght; }
 };
 
 class sport_complex
 {
 private:
-
+	string name_sport_complex;
+	int max_swimming_pools_amount;
+	int swimming_pools_amount;
+	swimming_pool** swimming_pools;
 public:
-
+	sport_complex()
+	{
+		name_sport_complex = "Не определено";
+		max_swimming_pools_amount = 5;
+		swimming_pools_amount = 5;
+		swimming_pools = new swimming_pool * [max_swimming_pools_amount];
+		for (int i = 0; i < max_swimming_pools_amount; i++)
+		{
+			swimming_pools[i] = new swimming_pool(i + 1, 2, 2, 3, 3, 5, 25);
+		}
+	}
+	sport_complex(string _name_sport_complex, int _max_swimming_pools_amount, int _swimming_pools_amount)
+	{
+		if (_name_sport_complex != "")
+		{
+			name_sport_complex = _name_sport_complex;
+		}
+		else
+		{
+			name_sport_complex = "Не определено";
+		}
+		if (_max_swimming_pools_amount >= 1)
+		{
+			max_swimming_pools_amount = _max_swimming_pools_amount;
+		}
+		else
+		{
+			max_swimming_pools_amount = 5;
+		}
+		if (_swimming_pools_amount <= _max_swimming_pools_amount && swimming_pools_amount >= 1)
+		{
+			swimming_pools_amount = _swimming_pools_amount;
+		}
+		else
+		{
+			swimming_pools_amount = 5;
+		}
+		swimming_pools = new swimming_pool * [max_swimming_pools_amount];
+		for (int i = 0; i < max_swimming_pools_amount; i++)
+		{
+			swimming_pools[i] = new swimming_pool(i + 1, 2, 2, 3, 3, 5, 25);
+		}
+	}
+	sport_complex(sport_complex& src_object)
+	{
+		int j = 0;
+		name_sport_complex = src_object.name_sport_complex;
+		max_swimming_pools_amount = src_object.swimming_pools_amount;
+		swimming_pools_amount = src_object.swimming_pools_amount;
+		swimming_pools = new swimming_pool * [max_swimming_pools_amount];
+		for (int i = 0; i < max_swimming_pools_amount; i++)
+		{
+			swimming_pools[i] = new swimming_pool(
+				src_object.swimming_pools[i]->get_swimming_pool_number(),
+				src_object.swimming_pools[i]->get_max_childrens_tracks_amount(),
+				src_object.swimming_pools[i]->get_childrens_tracks_amount(),
+				src_object.swimming_pools[i]->get_max_adults_tracks_amount(),
+				src_object.swimming_pools[i]->get_adults_tracks_amount(),
+				src_object.swimming_pools[i]->get_max_depth(),
+				src_object.swimming_pools[i]->get_lenght());
+			for (j = 0; j < src_object.swimming_pools[i]->get_childrens_tracks_amount(); j++)
+			{
+				// конструктор копии дорожки для детей
+			}
+			for (j = 0; j < src_object.swimming_pools[i]->get_adults_tracks_amount(); j++)
+			{
+				// конструктор копии дорожки для взрослых
+			}
+		}
+	}
+	~sport_complex()
+	{
+		for (int i = 0; i < max_swimming_pools_amount; i++)
+		{
+			delete swimming_pools[i];
+		}
+		delete[]swimming_pools;
+	}
 };
 
 int main()
