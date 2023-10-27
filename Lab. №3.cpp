@@ -220,35 +220,17 @@ public:
 		swimming_pool_number = src_object.swimming_pool_number;
 		max_childrens_tracks_amount = src_object.max_childrens_tracks_amount;
 		childrens_tracks_amount = src_object.childrens_tracks_amount;
-		for (i = 0; i < max_childrens_tracks_amount; i++)
+		childrens_tracks = new childrens_track * [max_childrens_tracks_amount];
+		for (i = 0; i < childrens_tracks_amount; i++)
 		{
-			childrens_tracks[i] = new childrens_track(
-				src_object.childrens_tracks[i]->get_track_number(),
-				src_object.childrens_tracks[i]->get_max_people_amount(),
-				src_object.childrens_tracks[i]->get_people_amount());
-			if (src_object.childrens_tracks[i]->get_people_amount() > 0)
-			{
-				for (j = 0; j < src_object.childrens_tracks[i]->get_people_amount(); j++)
-				{
-					childrens_tracks[i]->add_human_age(src_object.childrens_tracks[i]->get_human_age_by_index(i));
-				}
-			}
+			childrens_tracks[i] = new childrens_track(*(src_object.childrens_tracks[i]));
 		}
 		max_adults_tracks_amount = src_object.max_adults_tracks_amount;
 		adults_tracks_amount = src_object.adults_tracks_amount;
-		for (i = 0; i < max_adults_tracks_amount; i++)
+		adults_tracks = new adults_track * [max_adults_tracks_amount];
+		for (i = 0; i < adults_tracks_amount; i++)
 		{
-			adults_tracks[i] = new adults_track(
-				src_object.adults_tracks[i]->get_track_number(),
-				src_object.adults_tracks[i]->get_max_people_amount(),
-				src_object.adults_tracks[i]->get_people_amount());
-			if (src_object.adults_tracks[i]->get_people_amount() > 0)
-			{
-				for (j = 0; j < src_object.adults_tracks[i]->get_people_amount(); j++)
-				{
-					adults_tracks[i]->add_human_age(src_object.adults_tracks[i]->get_human_age_by_index(i));
-				}
-			}
+			adults_tracks[i] = new adults_track(*(src_object.adults_tracks[i]));
 		}
 		max_depth = src_object.max_depth;
 		lenght = src_object.lenght;
@@ -331,27 +313,12 @@ public:
 	{
 		int j = 0;
 		name_sport_complex = src_object.name_sport_complex;
-		max_swimming_pools_amount = src_object.swimming_pools_amount;
+		max_swimming_pools_amount = src_object.max_swimming_pools_amount;
 		swimming_pools_amount = src_object.swimming_pools_amount;
 		swimming_pools = new swimming_pool * [max_swimming_pools_amount];
-		for (int i = 0; i < max_swimming_pools_amount; i++)
+		for (int i = 0; i < swimming_pools_amount; i++)
 		{
-			swimming_pools[i] = new swimming_pool(
-				src_object.swimming_pools[i]->get_swimming_pool_number(),
-				src_object.swimming_pools[i]->get_max_childrens_tracks_amount(),
-				src_object.swimming_pools[i]->get_childrens_tracks_amount(),
-				src_object.swimming_pools[i]->get_max_adults_tracks_amount(),
-				src_object.swimming_pools[i]->get_adults_tracks_amount(),
-				src_object.swimming_pools[i]->get_max_depth(),
-				src_object.swimming_pools[i]->get_lenght());
-			for (j = 0; j < src_object.swimming_pools[i]->get_childrens_tracks_amount(); j++)
-			{
-				// конструктор копии дорожки для детей
-			}
-			for (j = 0; j < src_object.swimming_pools[i]->get_adults_tracks_amount(); j++)
-			{
-				// конструктор копии дорожки для взрослых
-			}
+			swimming_pools[i] = new swimming_pool(*(src_object.swimming_pools[i]));
 		}
 	}
 	~sport_complex()
