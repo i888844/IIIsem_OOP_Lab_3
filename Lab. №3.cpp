@@ -105,6 +105,47 @@ public:
 		}
 		return (result);
 	}
+	bool remove_human_age(int _human_age_index)
+	{
+		bool result = false;
+		if (_human_age_index >= 0 && _human_age_index < people_amount)
+		{
+			for (int i = _human_age_index; i < people_amount; i++)
+			{
+				peoples_ages[i] = peoples_ages[i + 1];
+			}
+			people_amount--;
+			result = true;
+		}
+		return (result);
+	}
+	bool remove_all_humans_age()
+	{
+		bool result = false;
+		if (people_amount > 0)
+		{
+			for (int i = 0; i < people_amount; i++)
+			{
+				peoples_ages[i] = 0;
+			}
+			people_amount = 0;
+			result = true;
+		}
+		return (result);
+	}
+	void output_track()
+	{
+		cout << "Дорожка №" << track_number << endl;
+		cout << "Максимальное количество людей на дорожке: " << max_people_amount << endl;
+		cout << "Количество людей на дорожке: " << people_amount << endl;
+		if (people_amount > 0)
+		{
+			for (int i = 0; i < people_amount; i++)
+			{
+				cout << i + 1 << ". " << peoples_ages[i] << endl;
+			}
+		}
+	}
 };
 
 class childrens_track : public track
@@ -256,6 +297,17 @@ public:
 	int get_adults_tracks_amount() const { return adults_tracks_amount; }
 	double get_max_depth() const { return max_depth; }
 	double get_lenght() const { return lenght; }
+	void set_swimming_pool_number(int _settable_swimming_pool_number)
+	{
+		if (_settable_swimming_pool_number >= 0)
+		{
+			swimming_pool_number = _settable_swimming_pool_number;
+		}
+		else
+		{
+			swimming_pool_number = 0;
+		}
+	}
 };
 
 class sport_complex
