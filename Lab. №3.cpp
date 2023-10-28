@@ -94,45 +94,6 @@ public:
 			track_number = 0;
 		}
 	}
-	bool add_human_age(int _human_age)
-	{
-		bool result = false;
-		if (people_amount < max_people_amount)
-		{
-			peoples_ages[people_amount] = _human_age;
-			people_amount++;
-			result = true;
-		}
-		return result;
-	}
-	bool remove_human_age(int _human_age_index)
-	{
-		bool result = false;
-		if (_human_age_index >= 0 && _human_age_index < people_amount)
-		{
-			for (int i = _human_age_index; i < people_amount; i++)
-			{
-				peoples_ages[i] = peoples_ages[i + 1];
-			}
-			people_amount--;
-			result = true;
-		}
-		return result;
-	}
-	bool remove_all_humans_age()
-	{
-		bool result = false;
-		if (people_amount > 0)
-		{
-			for (int i = 0; i < people_amount; i++)
-			{
-				peoples_ages[i] = 0;
-			}
-			people_amount = 0;
-			result = true;
-		}
-		return result;
-	}
 	void output_track()
 	{
 		cout << "Дорожка №" << track_number << endl;
@@ -146,6 +107,27 @@ public:
 				cout << i + 1 << ". " << peoples_ages[i] << endl;
 			}
 		}
+	}
+	void let_human_on_track(int _human_age)
+	{
+		peoples_ages[people_amount + 1] = _human_age;
+		people_amount++;
+	}
+	void remove_human_from_track(int _human_number)
+	{
+		for (int i = _human_number; i < people_amount; i++)
+		{
+			peoples_ages[i] = peoples_ages[i + 1];
+		}
+		people_amount--;
+	}
+	void remove_all_humans_from_track()
+	{
+		for (int i = 0; i < people_amount; i++)
+		{
+			peoples_ages[i] = 0;
+		}
+		people_amount = 0;
 	}
 };
 
@@ -540,6 +522,108 @@ public:
 		}
 		return result;
 	}
+	bool let_human_on_childrens_track(int _track_number, int _human_age)
+	{
+		bool result = false;
+		for (int i = 0; i < childrens_tracks_amount; i++)
+		{
+			if (_track_number == childrens_tracks[i]->get_track_number())
+			{
+				if ((childrens_tracks[i]->get_people_amount() < childrens_tracks[i]->get_max_people_amount()) && (_human_age > 0 && _human_age <= 12))
+				{
+					childrens_tracks[i]->let_human_on_track(_human_age);
+					result = true;
+				}
+				break;
+			}
+		}
+		return result;
+	}
+	bool remove_human_from_childrens_track(int _track_number, int _human_number)
+	{
+		bool result = false;
+		for (int i = 0; i < childrens_tracks_amount; i++)
+		{
+			if (_track_number == childrens_tracks[i]->get_track_number())
+			{
+				childrens_tracks[i]->remove_human_from_track(_human_number);
+				result = true;
+				break;
+			}
+		}
+		return result;
+	}
+	bool remove_all_humans_from_childrens_track(int _track_number)
+	{
+		bool result = false;
+		for (int i = 0; i < childrens_tracks_amount; i++)
+		{
+			if (_track_number == childrens_tracks[i]->get_track_number())
+			{
+				childrens_tracks[i]->remove_all_humans_from_track();
+				result = true;
+				break;
+			}
+		}
+		return result;
+	}
+	bool let_human_on_adults_track(int _track_number, int _human_age)
+	{
+		bool result = false;
+		for (int i = 0; i < adults_tracks_amount; i++)
+		{
+			if (_track_number == adults_tracks[i]->get_track_number())
+			{
+				if ((adults_tracks[i]->get_people_amount() < adults_tracks[i]->get_max_people_amount()) && (_human_age > 0 && _human_age <= 12))
+				{
+					adults_tracks[i]->let_human_on_track(_human_age);
+					result = true;
+				}
+				break;
+			}
+		}
+		return result;
+	}
+	bool remove_human_from_adults_track(int _track_number, int _human_number)
+	{
+		bool result = false;
+		for (int i = 0; i < adults_tracks_amount; i++)
+		{
+			if (_track_number == adults_tracks[i]->get_track_number())
+			{
+				adults_tracks[i]->remove_human_from_track(_human_number);
+				result = true;
+				break;
+			}
+		}
+		return result;
+	}
+	bool remove_all_humans_from_adults_track(int _track_number)
+	{
+		bool result = false;
+		for (int i = 0; i < adults_tracks_amount; i++)
+		{
+			if (_track_number == adults_tracks[i]->get_track_number())
+			{
+				adults_tracks[i]->remove_all_humans_from_track();
+				result = true;
+				break;
+			}
+		}
+		return result;
+	}
+	void remove_all_humans_from_swimming_pool()
+	{
+		int i = 0;
+		for (i = 0; i < childrens_tracks_amount; i++)
+		{
+			childrens_tracks[i]->remove_all_humans_from_track();
+		}
+		for (i = 0; i < adults_tracks_amount; i++)
+		{
+			adults_tracks[i]->remove_all_humans_from_track();
+		}
+	}
 };
 
 class sport_complex
@@ -869,6 +953,105 @@ public:
 			}
 		}
 		return result;
+	}
+	bool let_human_on_childrens_track(int _swimming_pool_number, int _track_number, int _human_age)
+	{
+		bool result = false;
+		for (int i = 0; i < swimming_pools_amount; i++)
+		{
+			if (_swimming_pool_number == swimming_pools[i]->get_swimming_pool_number())
+			{
+				result = swimming_pools[i]->let_human_on_childrens_track(_track_number, _human_age);
+				break;
+			}
+		}
+		return result;
+	}
+	bool remove_human_from_childrens_track(int _swimming_pool_number, int _track_number, int _human_number)
+	{
+		bool result = false;
+		for (int i = 0; i < swimming_pools_amount; i++)
+		{
+			if (_swimming_pool_number == swimming_pools[i]->get_swimming_pool_number())
+			{
+				result = swimming_pools[i]->remove_human_from_childrens_track(_track_number, _human_number);
+				break;
+			}
+		}
+		return result;
+	}
+	bool remove_all_humans_from_childrens_track(int _swimming_pool_number, int _track_number)
+	{
+		bool result = false;
+		for (int i = 0; i < swimming_pools_amount; i++)
+		{
+			if (_swimming_pool_number == swimming_pools[i]->get_swimming_pool_number())
+			{
+				result = swimming_pools[i]->remove_all_humans_from_childrens_track(_track_number);
+				break;
+			}
+		}
+		return result;
+	}
+	bool let_human_on_adults_track(int _swimming_pool_number, int _track_number, int _human_age)
+	{
+		bool result = false;
+		for (int i = 0; i < swimming_pools_amount; i++)
+		{
+			if (_swimming_pool_number == swimming_pools[i]->get_swimming_pool_number())
+			{
+				result = swimming_pools[i]->let_human_on_adults_track(_track_number, _human_age);
+				break;
+			}
+		}
+		return result;
+	}
+	bool remove_human_from_adults_track(int _swimming_pool_number, int _track_number, int _human_number)
+	{
+		bool result = false;
+		for (int i = 0; i < swimming_pools_amount; i++)
+		{
+			if (_swimming_pool_number == swimming_pools[i]->get_swimming_pool_number())
+			{
+				result = swimming_pools[i]->remove_human_from_adults_track(_track_number, _human_number);
+				break;
+			}
+		}
+		return result;
+	}
+	bool remove_all_humans_from_adults_track(int _swimming_pool_number, int _track_number)
+	{
+		bool result = false;
+		for (int i = 0; i < swimming_pools_amount; i++)
+		{
+			if (_swimming_pool_number == swimming_pools[i]->get_swimming_pool_number())
+			{
+				result = swimming_pools[i]->remove_all_humans_from_adults_track(_track_number);
+				break;
+			}
+		}
+		return result;
+	}
+	bool remove_all_humans_from_swimming_pool(int _swimming_pool_number)
+	{
+		bool result = false;
+		for (int i = 0; i < swimming_pools_amount; i++)
+		{
+			if (_swimming_pool_number == swimming_pools[i]->get_swimming_pool_number())
+			{
+				swimming_pools[i]->remove_all_humans_from_swimming_pool();
+				result = true;
+				break;
+			}
+		}
+		return result;
+	}
+	void remove_all_humans_from_sport_complex()
+	{
+		for (int i = 0; i < swimming_pools_amount; i++)
+		{
+			swimming_pools[i]->remove_all_humans_from_swimming_pool();
+		}
 	}
 };
 
