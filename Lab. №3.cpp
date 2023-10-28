@@ -97,8 +97,8 @@ public:
 	void output_track()
 	{
 		cout << "Дорожка №" << track_number << endl;
-		cout << "Максимальное количество людей на дорожке: " << max_people_amount << endl;
-		cout << "Количество людей на дорожке: " << people_amount << endl;
+		cout << "Максимальное количество людей на дорожке: " << max_people_amount << " ед." << endl;
+		cout << "Количество людей на дорожке: " << people_amount << " ед." << endl;
 		cout << "Люди на дорожке: " << endl;
 		if (people_amount > 0)
 		{
@@ -235,6 +235,22 @@ public:
 		for (i = 0; i < max_adults_tracks_amount; i++)
 		{
 			adults_tracks[i] = new adults_track(i + 1, 10, 0);
+		}
+		if (_max_depth >= 2.0)
+		{
+			max_depth = _max_depth;
+		}
+		else
+		{
+			max_depth = 5.0;
+		}
+		if (_lenght >= 5.0)
+		{
+			lenght = _lenght;
+		}
+		else
+		{
+			lenght = 25.0;
 		}
 	}
 	swimming_pool(swimming_pool& src_object)
@@ -393,10 +409,10 @@ public:
 	{
 		int i = 0;
 		cout << "Бассейн №" << swimming_pool_number << endl;
-		cout << "Количество детских дорожек: " << childrens_tracks_amount << endl;
-		cout << "Количество взрослых дорожек: " << adults_tracks_amount << endl;
-		cout << "Максимальная глубина: " << max_depth << endl;
-		cout << "Длина: " << lenght << endl;
+		cout << "Количество детских дорожек: " << childrens_tracks_amount << " ед." << endl;
+		cout << "Количество взрослых дорожек: " << adults_tracks_amount << " ед." << endl;
+		cout << "Максимальная глубина: " << max_depth << " м" << endl;
+		cout << "Длина: " << lenght << " м" << endl;
 		cout << "Детские дорожки:" << endl;
 		for (i = 0; i < childrens_tracks_amount; i++)
 		{
@@ -529,7 +545,7 @@ public:
 		{
 			if (_track_number == childrens_tracks[i]->get_track_number())
 			{
-				if ((childrens_tracks[i]->get_people_amount() < childrens_tracks[i]->get_max_people_amount()) && (_human_age > 0 && _human_age <= 12))
+				if ((childrens_tracks[i]->get_people_amount() < childrens_tracks[i]->get_max_people_amount()) && (_human_age > 0 && _human_age < 12))
 				{
 					childrens_tracks[i]->let_human_on_track(_human_age);
 					result = true;
@@ -574,7 +590,7 @@ public:
 		{
 			if (_track_number == adults_tracks[i]->get_track_number())
 			{
-				if ((adults_tracks[i]->get_people_amount() < adults_tracks[i]->get_max_people_amount()) && (_human_age > 0 && _human_age <= 12))
+				if ((adults_tracks[i]->get_people_amount() < adults_tracks[i]->get_max_people_amount()) && (_human_age >= 12))
 				{
 					adults_tracks[i]->let_human_on_track(_human_age);
 					result = true;
@@ -674,7 +690,7 @@ public:
 		swimming_pools = new swimming_pool * [max_swimming_pools_amount];
 		for (int i = 0; i < max_swimming_pools_amount; i++)
 		{
-			swimming_pools[i] = new swimming_pool(i + 1, 2, 2, 3, 3, 5, 25);
+			swimming_pools[i] = new swimming_pool(i + 1, 2, 2, 3, 3, 5.0, 25.0);
 		}
 	}
 	sport_complex(sport_complex& src_object)
@@ -763,8 +779,8 @@ public:
 	void output_sport_complex()
 	{
 		cout << "Спортивный комплекс \"" << name_sport_complex << "\"" << endl;
-		cout << "Максимальное количество бассейнов: " << max_swimming_pools_amount << endl;
-		cout << "Количество бассейнов: " << swimming_pools_amount << endl;
+		cout << "Максимальное количество бассейнов: " << max_swimming_pools_amount << " ед." << endl;
+		cout << "Количество бассейнов: " << swimming_pools_amount << " ед." << endl;
 		for (int i = 0; i < swimming_pools_amount; i++)
 		{
 			swimming_pools[i]->output_swimming_pool();
@@ -1059,5 +1075,439 @@ int main()
 {
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
+	sport_complex a;
+	int cmd = 0;
+	do
+	{
+		cout << "Меню взаимодействия:" << endl;
+		cout << "1. Вывести на экран:" << endl;
+		cout << ">>> 1. Спортивный комплекс" << endl;
+		cout << ">>> 2. Бассейн" << endl;
+		cout << ">>> 3. Детскую дорожку" << endl;
+		cout << ">>> 4. Взрослую дорожку" << endl;
+		cout << "2. Изменить:" << endl;
+		cout << ">>> 1. Название спортивного комплекса" << endl;
+		cout << ">>> 2. Номер бассейна" << endl;
+		cout << ">>> 3. Номер детской дорожки" << endl;
+		cout << ">>> 4. Номер взрослой дорожки" << endl;
+		cout << "3. Добавить:" << endl;
+		cout << ">>> 1. Бассейн" << endl;
+		cout << ">>> >>> 1. Конструктором по умолчанию" << endl;
+		cout << ">>> >>> 2. Конструктором с параметрами" << endl;
+		cout << ">>> >>> 3. Конструктором копии" << endl;
+		cout << ">>> 2. Дорожку" << endl;
+		cout << ">>> >>> 1. Конструктором по умолчанию" << endl;
+		cout << ">>> >>> 2. Конструктором с параметрами" << endl;
+		cout << ">>> >>> 3. Конструктором копии" << endl;
+		cout << "4. Убрать: " << endl;
+		cout << ">>> 1. Бассейн" << endl;
+		cout << ">>> 2. Дорожку" << endl;
+		cout << "5. Поместить человека:" << endl;
+		cout << ">>> 1. На детскую дорожку" << endl;
+		cout << ">>> 2. На взрослую дорожку" << endl;
+		cout << "6. Убрать человека:" << endl;
+		cout << ">>> 1. Убрать одного человека:" << endl;
+		cout << ">>> >>> 1. С детской дорожки" << endl;
+		cout << ">>> >>> 2. С взрослой дорожки" << endl;
+		cout << ">>> 2. Убрать всех людей:" << endl;
+		cout << ">>> >>> 1. С детской дорожки" << endl;
+		cout << ">>> >>> 2. С взрослой дорожки" << endl;
+		cout << ">>> >>> 3. С бассейна" << endl;
+		cout << ">>> >>> 4. С спортивного комлекса" << endl;
+		cout << "0. Завершить работу программы" << endl;
+		cout << "Номер дейсвия: ";
+		cin >> cmd;
+		while (cmd < 0 || cmd > 6)
+		{
+			cout << "[Ошибка]: введён некорректный номер действия. Номер действия: ";
+			cin >> cmd;
+		}
+		switch (cmd)
+		{
+			case 0:
+			{
+				break;
+			}
+			case 1:
+			{
+				int s_cmd = 0;
+				cout << "Меню взаимодействия: Вывести на экран:" << endl;
+				cout << "1. Спортивный комплекс" << endl;
+				cout << "2. Бассейн" << endl;
+				cout << "3. Детскую дорожку" << endl;
+				cout << "4. Взрослую дорожку" << endl;
+				cout << "0. Вернуться назад" << endl;
+				cout << "Номер дейсвия: ";
+				cin >> s_cmd;
+				while (s_cmd < 0 || s_cmd > 4)
+				{
+					cout << "[Ошибка]: введён некорректный номер действия. Номер действия: ";
+					cin >> s_cmd;
+				}
+				switch (s_cmd)
+				{
+					case 0:
+					{
+						break;
+					}
+					case 1:
+					{
+						cout << "Меню взаимодействия: Вывести на экран: Спортивный комплекс" << endl;
+
+						break;
+					}
+					case 2:
+					{
+						cout << "Меню взаимодействия: Вывести на экран: Бассейн" << endl;
+
+						break;
+					}
+					case 3:
+					{
+						cout << "Меню взаимодействия: Вывести на экран: Детскую дорожку" << endl;
+
+						break;
+					}
+					case 4:
+					{
+						cout << "Меню взаимодействия: Вывести на экран: Взрослую дорожку" << endl;
+
+						break;
+					}
+				}
+				break;
+			}
+			case 2:
+			{
+				int s_cmd = 0;
+				cout << "Меню взаимодействия: Изменить:" << endl;
+				cout << "1. Название спортивного комплекса" << endl;
+				cout << "2. Номер бассейна" << endl;
+				cout << "3. Номер детской дорожки" << endl;
+				cout << "4. Номер взрослой дорожки" << endl;
+				cout << "Номер дейсвия: ";
+				cin >> s_cmd;
+				while (s_cmd < 0 || s_cmd > 4)
+				{
+					cout << "[Ошибка]: введён некорректный номер действия. Номер действия: ";
+					cin >> s_cmd;
+				}
+				switch (s_cmd)
+				{
+					case 0:
+					{
+						break;
+					}
+					case 1:
+					{
+						cout << "Меню взаимодействия: Изменить: Название спортивного комплекса" << endl;
+
+						break;
+					}
+					case 2:
+					{
+						cout << "Меню взаимодействия: Изменить: Номер бассейна" << endl;
+
+						break;
+					}
+					case 3:
+					{
+						cout << "Меню взаимодействия: Изменить: Номер детской дорожки" << endl;
+
+						break;
+					}
+					case 4:
+					{
+						cout << "Меню взаимодействия: Изменить: Номер взрослой дорожки" << endl;
+
+						break;
+					}
+				}
+				break;
+			}
+			case 3:
+			{
+				int s_cmd = 0;
+				cout << "Меню взаимодействия: Добавить:" << endl;
+				cout << "1. Бассейн" << endl;
+				cout << ">>> 1. Конструктором по умолчанию" << endl;
+				cout << ">>> 2. Конструктором с параметрами" << endl;
+				cout << ">>> 3. Конструктором копии" << endl;
+				cout << "2. Дорожку" << endl;
+				cout << ">>> 1. Конструктором по умолчанию" << endl;
+				cout << ">>> 2. Конструктором с параметрами" << endl;
+				cout << ">>> 3. Конструктором копии" << endl;
+				cout << "Номер дейсвия: ";
+				cin >> s_cmd;
+				while (s_cmd < 0 || s_cmd > 2)
+				{
+					cout << "[Ошибка]: введён некорректный номер действия. Номер действия: ";
+					cin >> s_cmd;
+				}
+				switch (s_cmd)
+				{
+					case 0:
+					{
+						break;
+					}
+					case 1:
+					{
+						cout << "Меню взаимодействия: Добавить: Бассейн" << endl;
+						cout << ">>> 1. Конструктором по умолчанию" << endl;
+						cout << ">>> 2. Конструктором с параметрами" << endl;
+						cout << ">>> 3. Конструктором копии" << endl;
+						cin >> s_cmd;
+						while (s_cmd < 0 || s_cmd > 3)
+						{
+							cout << "[Ошибка]: введён некорректный номер действия. Номер действия: ";
+							cin >> s_cmd;
+						}
+						switch (s_cmd)
+						{
+							case 0:
+							{
+								break;
+							}
+							case 1:
+							{
+								cout << "Меню взаимодействия: Добавить: Бассейн: Конструктором по умолчанию" << endl;
+
+								break;
+							}
+							case 2:
+							{
+								cout << "Меню взаимодействия: Добавить: Бассейн: Конструктором с параметрами" << endl;
+
+								break;
+							}
+							case 3:
+							{
+								cout << "Меню взаимодействия: Добавить: Бассейн: Конструктором копии" << endl;
+
+								break;
+							}
+						}
+						break;
+					}
+					case 2:
+					{
+						cout << "Меню взаимодействия: Добавить: Дорожку" << endl;
+						cout << ">>> 1. Конструктором по умолчанию" << endl;
+						cout << ">>> 2. Конструктором с параметрами" << endl;
+						cout << ">>> 3. Конструктором копии" << endl;
+						cin >> s_cmd;
+						while (s_cmd < 0 || s_cmd > 3)
+						{
+							cout << "[Ошибка]: введён некорректный номер действия. Номер действия: ";
+							cin >> s_cmd;
+						}
+						switch (s_cmd)
+						{
+						case 0:
+						{
+							break;
+						}
+						case 1:
+						{
+							cout << "Меню взаимодействия: Добавить: Дорожку: Конструктором по умолчанию" << endl;
+
+							break;
+						}
+						case 2:
+						{
+							cout << "Меню взаимодействия: Добавить: Дорожку: Конструктором с параметрами" << endl;
+
+							break;
+						}
+						case 3:
+						{
+							cout << "Меню взаимодействия: Добавить: Дорожку: Конструктором копии" << endl;
+
+							break;
+						}
+						}
+						break;
+					}
+				}
+				break;
+			}
+			case 4:
+			{
+				int s_cmd = 0;
+				cout << "Меню взаимодействия: Убрать:" << endl;
+				cout << "1. Бассейн" << endl;
+				cout << "2. Дорожку" << endl;
+				cout << "Номер дейсвия: ";
+				cin >> s_cmd;
+				while (s_cmd < 0 || s_cmd > 2)
+				{
+					cout << "[Ошибка]: введён некорректный номер действия. Номер действия: ";
+					cin >> s_cmd;
+				}
+				switch (s_cmd)
+				{
+					case 0:
+					{
+						break;
+					}
+					case 1:
+					{
+						cout << "Меню взаимодействия: Убрать: Бассейн" << endl;
+
+						break;
+					}
+					case 2:
+					{
+						cout << "Меню взаимодействия: Убрать: Дорожку" << endl;
+
+						break;
+					}
+				}
+				break;
+			}
+			case 5:
+			{
+				int s_cmd = 0;
+				cout << "Меню взаимодействия: Поместить человека" << endl;
+				cout << "1. На детскую дорожку" << endl;
+				cout << "2. На взрослую дорожку" << endl;
+				cout << "Номер дейсвия: ";
+				cin >> s_cmd;
+				while (s_cmd < 0 || s_cmd > 2)
+				{
+					cout << "[Ошибка]: введён некорректный номер действия. Номер действия: ";
+					cin >> s_cmd;
+				}
+				switch (s_cmd)
+				{
+					case 0:
+					{
+						break;
+					}
+					case 1:
+					{
+						cout << "Меню взаимодействия: Поместить человека: На детскую дорожку" << endl;
+
+						break;
+					}
+					case 2:
+					{
+						cout << "Меню взаимодействия: Поместить человека: На взрослую дорожку" << endl;
+
+						break;
+					}
+				}
+				break;
+			}
+			case 6:
+			{
+				int s_cmd = 0;
+				cout << "Меню взаимодействия: Убрать человека:" << endl;
+				cout << "1. Убрать одного человека:" << endl;
+				cout << ">>> 1. С детской дорожки" << endl;
+				cout << ">>> 2. С взрослой дорожки" << endl;
+				cout << "2. Убрать всех людей:" << endl;
+				cout << ">>> 1. С детской дорожки" << endl;
+				cout << ">>> 2. С взрослой дорожки" << endl;
+				cout << ">>> 3. С бассейна" << endl;
+				cout << ">>> 4. С спортивного комлекса" << endl;
+				cout << "Номер дейсвия: ";
+				cin >> s_cmd;
+				while (s_cmd < 0 || s_cmd > 2)
+				{
+					cout << "[Ошибка]: введён некорректный номер действия. Номер действия: ";
+					cin >> s_cmd;
+				}
+				switch (s_cmd)
+				{
+					case 0:
+					{
+						break;
+					}
+					case 1:
+					{
+						cout << "Меню взаимодействия: Убрать человека: Убрать одного человека" << endl;
+						cout << "1. С детской дорожки" << endl;
+						cout << "2. С взрослой дорожки" << endl;
+						cout << "Номер дейсвия: ";
+						cin >> s_cmd;
+						while (s_cmd < 0 || s_cmd > 2)
+						{
+							cout << "[Ошибка]: введён некорректный номер действия. Номер действия: ";
+							cin >> s_cmd;
+						}
+						switch (s_cmd)
+						{
+							case 0:
+							{
+								break;
+							}
+							case 1:
+							{
+								cout << "Меню взаимодействия: Убрать человека: Убрать одного человека: С детской дорожки" << endl;
+
+								break;
+							}
+							case 2:
+							{
+								cout << "Меню взаимодействия: Убрать человека: Убрать одного человека: С взрослой дорожки" << endl;
+
+								break;
+							}
+						}
+						break;
+					}
+					case 2:
+					{
+						cout << "Меню взаимодействия: Убрать человека: Убрать всех людей" << endl;
+						cout << "1. С детской дорожки" << endl;
+						cout << "2. С взрослой дорожки" << endl;
+						cout << "3. С бассейна" << endl;
+						cout << "4. С спортивного комлекса" << endl;
+						cout << "Номер дейсвия: ";
+						cin >> s_cmd;
+						while (s_cmd < 0 || s_cmd > 4)
+						{
+							cout << "[Ошибка]: введён некорректный номер действия. Номер действия: ";
+							cin >> s_cmd;
+						}
+						switch (s_cmd)
+						{
+							case 0:
+							{
+								break;
+							}
+							case 1:
+							{
+								cout << "Меню взаимодействия: Убрать человека: Убрать всех людей: С детской дорожки" << endl;
+
+								break;
+							}
+							case 2:
+							{
+								cout << "Меню взаимодействия: Убрать человека: Убрать всех людей: С взрослой дорожки" << endl;
+
+								break;
+							}
+							case 3:
+							{
+								cout << "Меню взаимодействия: Убрать человека: Убрать всех людей: С бассейна" << endl;
+
+								break;
+							}
+							case 4:
+							{
+								cout << "Меню взаимодействия: Убрать человека: Убрать всех людей: С спортивного комплекса" << endl;
+
+								break;
+							}
+						}
+						break;
+					}
+				}
+				break;
+			}
+		}
+	} while (cmd != 0);
 	return 0;
 }
