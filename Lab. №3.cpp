@@ -103,7 +103,7 @@ public:
 			people_amount++;
 			result = true;
 		}
-		return (result);
+		return result;
 	}
 	bool remove_human_age(int _human_age_index)
 	{
@@ -117,7 +117,7 @@ public:
 			people_amount--;
 			result = true;
 		}
-		return (result);
+		return result;
 	}
 	bool remove_all_humans_age()
 	{
@@ -131,13 +131,14 @@ public:
 			people_amount = 0;
 			result = true;
 		}
-		return (result);
+		return result;
 	}
 	void output_track()
 	{
 		cout << "Дорожка №" << track_number << endl;
 		cout << "Максимальное количество людей на дорожке: " << max_people_amount << endl;
 		cout << "Количество людей на дорожке: " << people_amount << endl;
+		cout << "Люди на дорожке: " << endl;
 		if (people_amount > 0)
 		{
 			for (int i = 0; i < people_amount; i++)
@@ -297,6 +298,58 @@ public:
 	int get_adults_tracks_amount() const { return adults_tracks_amount; }
 	double get_max_depth() const { return max_depth; }
 	double get_lenght() const { return lenght; }
+	int get_childrens_track_people_amount(int _track_number)
+	{
+		int childrens_track_people_amount = 0;
+		for (int i = 0; i < childrens_tracks_amount; i++)
+		{
+			if (_track_number == childrens_tracks[i]->get_track_number())
+			{
+				childrens_track_people_amount = childrens_tracks[i]->get_people_amount();
+				break;
+			}
+		}
+		return childrens_track_people_amount;
+	}
+	int get_adults_track_people_amount(int _track_number)
+	{
+		int adults_track_people_amount = 0;
+		for (int i = 0; i < adults_tracks_amount; i++)
+		{
+			if (_track_number == adults_tracks[i]->get_track_number())
+			{
+				adults_track_people_amount = adults_tracks[i]->get_people_amount();
+				break;
+			}
+		}
+		return adults_track_people_amount;
+	}
+	int get_childrens_track_max_people_amount(int _track_number)
+	{
+		int childrens_track_people_amount = 0;
+		for (int i = 0; i < childrens_tracks_amount; i++)
+		{
+			if (_track_number == childrens_tracks[i]->get_track_number())
+			{
+				childrens_track_people_amount = childrens_tracks[i]->get_max_people_amount();
+				break;
+			}
+		}
+		return childrens_track_people_amount;
+	}
+	int get_adults_track_max_people_amount(int _track_number)
+	{
+		int adults_track_people_amount = 0;
+		for (int i = 0; i < adults_tracks_amount; i++)
+		{
+			if (_track_number == adults_tracks[i]->get_track_number())
+			{
+				adults_track_people_amount = adults_tracks[i]->get_max_people_amount();
+				break;
+			}
+		}
+		return adults_track_people_amount;
+	}
 	void set_swimming_pool_number(int _settable_swimming_pool_number)
 	{
 		if (_settable_swimming_pool_number >= 0)
@@ -306,6 +359,91 @@ public:
 		else
 		{
 			swimming_pool_number = 0;
+		}
+	}
+	void set_childrens_track_number(int _track_number, int _settable_track_number)
+	{
+		for (int i = 0; i < childrens_tracks_amount; i++)
+		{
+			if (_track_number == childrens_tracks[i]->get_track_number())
+			{
+				bool this_number_did_not_meet = true;
+				for (int j = 0; j < childrens_tracks_amount; j++)
+				{
+					if (_settable_track_number == childrens_tracks[j]->get_track_number())
+					{
+						this_number_did_not_meet = false;
+						break;
+					}
+				}
+				if (this_number_did_not_meet)
+				{
+					childrens_tracks[i]->set_track_number(_settable_track_number);
+				}
+				break;
+			}
+		}
+	}
+	void set_adults_track_number(int _track_number, int _settable_track_number)
+	{
+		for (int i = 0; i < adults_tracks_amount; i++)
+		{
+			if (_track_number == adults_tracks[i]->get_track_number())
+			{
+				bool this_number_did_not_meet = true;
+				for (int j = 0; j < adults_tracks_amount; j++)
+				{
+					if (_settable_track_number == adults_tracks[j]->get_track_number())
+					{
+						this_number_did_not_meet = false;
+						break;
+					}
+				}
+				if (this_number_did_not_meet)
+				{
+					adults_tracks[i]->set_track_number(_settable_track_number);
+				}
+				break;
+			}
+		}
+	}
+	void output_swimming_pool()
+	{
+		int i = 0;
+		cout << "Бассейн №" << swimming_pool_number << endl;
+		cout << "Количество детских дорожек: " << childrens_tracks_amount << endl;
+		cout << "Количество взрослых дорожек: " << adults_tracks_amount << endl;
+		cout << "Максимальная глубина: " << max_depth << endl;
+		cout << "Длина: " << lenght << endl;
+		cout << "Детские дорожки:" << endl;
+		for (i = 0; i < childrens_tracks_amount; i++)
+		{
+			childrens_tracks[i]->output_track();
+		}
+		cout << "Взрослые дорожки" << endl;
+		for (i = 0; i < adults_tracks_amount; i++)
+		{
+			adults_tracks[i]->output_track();
+		}
+	}
+	void output_childrens_track(int _track_number)
+	{
+		for (int i = 0; i < childrens_tracks_amount; i++)
+		{
+			if (_track_number == childrens_tracks[i]->get_track_number())
+			{
+				childrens_tracks[i]->output_track();
+			}
+		}
+	}
+	void output_adults_track(int _track_number)
+	{
+		for (int i = 0; i < adults_tracks_amount; i++)
+		{
+			if (_track_number == adults_tracks[i]->get_track_number())
+			{
+				adults_tracks[i]->output_track();
+			}
 		}
 	}
 };
@@ -380,6 +518,145 @@ public:
 			delete swimming_pools[i];
 		}
 		delete[]swimming_pools;
+	}
+	string get_name_sport_complex() const { return name_sport_complex; }
+	int get_max_swimming_pools_amount() const { return max_swimming_pools_amount; }
+	int get_swimming_pools_amount() const { return swimming_pools_amount; }
+	int get_childrens_track_people_amount(int _swimming_pool_number, int _track_number) const { return swimming_pools[_swimming_pool_number]->get_childrens_track_people_amount(_track_number); }
+	int get_adults_track_people_amount(int _swimming_pool_number, int _track_number) const { return swimming_pools[_swimming_pool_number]->get_adults_track_people_amount(_track_number); }
+	int get_childrens_track_max_people_amount(int _swimming_pool_number, int _track_number) const { return swimming_pools[_swimming_pool_number]->get_childrens_track_max_people_amount(_track_number); }
+	int get_adults_track_max_people_amount(int _swimming_pool_number, int _track_number) const { return swimming_pools[_swimming_pool_number]->get_adults_track_max_people_amount(_track_number); }
+	void set_name_sport_complex(string _settable_name_sport_complex)
+	{
+		if (_settable_name_sport_complex != "")
+		{
+			name_sport_complex = _settable_name_sport_complex;
+		}
+		else
+		{
+			name_sport_complex = "Не определено";
+		}
+	}
+	void set_swimming_pool_number(int _swimming_pool_number, int _settable_swimming_pool_number)
+	{
+		for (int i = 0; i < swimming_pools_amount; i++)
+		{
+			if (_swimming_pool_number == swimming_pools[i]->get_swimming_pool_number())
+			{
+				bool this_number_did_not_meet = true;
+				for (int j = 0; j < swimming_pools_amount; j++)
+				{
+					if (_settable_swimming_pool_number == swimming_pools[i]->get_swimming_pool_number())
+					{
+						this_number_did_not_meet = false;
+						break;
+					}
+				}
+				if (this_number_did_not_meet)
+				{
+					swimming_pools[i]->set_swimming_pool_number(_settable_swimming_pool_number);
+				}
+				break;
+			}
+		}
+	}
+	void set_childrens_track_number(int _swimming_pool_number, int _track_number, int _settable_track_number)
+	{
+		for (int i = 0; i < swimming_pools_amount; i++)
+		{
+			if (_swimming_pool_number == swimming_pools[i]->get_swimming_pool_number())
+			{
+				swimming_pools[i]->set_childrens_track_number(_track_number, _settable_track_number);
+				break;
+			}
+		}
+	}
+	void set_adults_track_number(int _swimming_pool_number, int _track_number, int _settable_track_number)
+	{
+		for (int i = 0; i < swimming_pools_amount; i++)
+		{
+			if (_swimming_pool_number == swimming_pools[i]->get_swimming_pool_number())
+			{
+				swimming_pools[i]->set_adults_track_number(_track_number, _settable_track_number);
+				break;
+			}
+		}
+	}
+	void output_sport_complex()
+	{
+		cout << "Спортивный комплекс \"" << name_sport_complex << "\"" << endl;
+		cout << "Максимальное количество бассейнов: " << max_swimming_pools_amount << endl;
+		cout << "Количество бассейнов: " << swimming_pools_amount << endl;
+		for (int i = 0; i < swimming_pools_amount; i++)
+		{
+			swimming_pools[i]->output_swimming_pool();
+		}
+	}
+	void output_swimming_pool(int _swimming_pool_number)
+	{
+		for (int i = 0; i < swimming_pools_amount; i++)
+		{
+			if (_swimming_pool_number == swimming_pools[i]->get_swimming_pool_number())
+			{
+				swimming_pools[i]->output_swimming_pool();
+				break;
+			}
+		}
+	}
+	void output_childrens_track(int _swimming_pool_number, int _track_number)
+	{
+		for (int i = 0; i < swimming_pools_amount; i++)
+		{
+			if (_swimming_pool_number == swimming_pools[i]->get_swimming_pool_number())
+			{
+				swimming_pools[i]->output_childrens_track(_track_number);
+				break;
+			}
+		}
+	}
+	void output_adults_track(int _swimming_pool_number, int _track_number)
+	{
+		for (int i = 0; i < swimming_pools_amount; i++)
+		{
+			if (_swimming_pool_number == swimming_pools[i]->get_swimming_pool_number())
+			{
+				swimming_pools[i]->output_adults_track(_track_number);
+				break;
+			}
+		}
+	}
+	bool add_swimming_pool_by_default_constructor()
+	{
+		bool result = false;
+		if (swimming_pools_amount < max_swimming_pools_amount)
+		{
+			swimming_pools[swimming_pools_amount + 1] = new swimming_pool();
+			swimming_pools_amount++;
+			result = true;
+		}
+		return result;
+	}
+	bool add_swimming_pool_by_constructor_with_parameters(int _swimming_pool_number, int _max_childrens_tracks_amount, int _childrens_tracks_amount, int _max_adults_tracks_amount, int _adults_tracks_amount, double _max_depth, double _lenght)
+	{
+		bool result = false;
+		if (swimming_pools_amount < max_swimming_pools_amount)
+		{
+			swimming_pools[swimming_pools_amount + 1] = new swimming_pool(_swimming_pool_number, _max_childrens_tracks_amount, _childrens_tracks_amount, _max_adults_tracks_amount, _adults_tracks_amount, _max_depth, _lenght);
+			swimming_pools_amount++;
+			result = true;
+		}
+		return result;
+	}
+	bool add_swimming_pool_by_copy_constructor(swimming_pool& src_object)
+	{
+		bool result = false;
+		if (swimming_pools_amount < max_swimming_pools_amount)
+		{
+			swimming_pools[swimming_pools_amount + 1] = new swimming_pool(src_object);
+			swimming_pools_amount++;
+			result = true;
+		}
+		return result;
 	}
 };
 
