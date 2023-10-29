@@ -466,14 +466,20 @@ public:
 		}
 		return false;
 	}
-	bool add_childrens_track_by_copy_constructor(childrens_track& src_object)
+	bool add_childrens_track_by_copy_constructor(int _src_childrens_track_number)
 	{
 		bool result = false;
 		if (childrens_tracks_amount < max_childrens_tracks_amount)
 		{
-			childrens_tracks[childrens_tracks_amount + 1] = new childrens_track(src_object);
-			childrens_tracks_amount++;
-			result = true;
+			for (int i = 0; i < childrens_tracks_amount; i++)
+			{
+				if (_src_childrens_track_number == childrens_tracks[i]->get_track_number())
+				{
+					childrens_tracks[childrens_tracks_amount + 1] = new childrens_track(*(childrens_tracks[i]));
+					childrens_tracks_amount++;
+					result = true;
+				}
+			}
 		}
 		return false;
 	}
@@ -513,14 +519,20 @@ public:
 		}
 		return false;
 	}
-	bool add_adults_track_by_copy_constructor(adults_track& src_object)
+	bool add_adults_track_by_copy_constructor(int _src_adults_track_number)
 	{
 		bool result = false;
 		if (adults_tracks_amount < max_adults_tracks_amount)
 		{
-			adults_tracks[adults_tracks_amount + 1] = new adults_track(src_object);
-			adults_tracks_amount++;
-			result = true;
+			for (int i = 0; i < adults_tracks_amount; i++)
+			{
+				if (_src_adults_track_number == adults_tracks[i]->get_track_number())
+				{
+					adults_tracks[adults_tracks_amount + 1] = new adults_track(*(adults_tracks[i]));
+					adults_tracks_amount++;
+					result = true;
+				}
+			}
 		}
 		return false;
 	}
@@ -841,14 +853,20 @@ public:
 		}
 		return result;
 	}
-	bool add_swimming_pool_by_copy_constructor(swimming_pool& src_object)
+	bool add_swimming_pool_by_copy_constructor(int _src_swimming_pool_number)
 	{
 		bool result = false;
 		if (swimming_pools_amount < max_swimming_pools_amount)
 		{
-			swimming_pools[swimming_pools_amount + 1] = new swimming_pool(src_object);
-			swimming_pools_amount++;
-			result = true;
+			for (int i = 0; i < swimming_pools_amount; i++)
+			{
+				if (_src_swimming_pool_number == swimming_pools[i]->get_swimming_pool_number())
+				{
+					swimming_pools[swimming_pools_amount + 1] = new swimming_pool(*(swimming_pools[i]));
+					swimming_pools_amount++;
+					result = true;
+				}
+			}
 		}
 		return result;
 	}
@@ -892,14 +910,14 @@ public:
 		}
 		return result;
 	}
-	bool add_childrens_track_by_copy_constructor(int _swimming_pool_number, childrens_track& src_object)
+	bool add_childrens_track_by_copy_constructor(int _src_swimming_pool_number, int _src_childrens_track_number)
 	{
 		bool result = false;
 		for (int i = 0; i < swimming_pools_amount; i++)
 		{
-			if (_swimming_pool_number == swimming_pools[i]->get_swimming_pool_number())
+			if (_src_swimming_pool_number == swimming_pools[i]->get_swimming_pool_number())
 			{
-				result = swimming_pools[i]->add_childrens_track_by_copy_constructor(src_object);
+				result = swimming_pools[i]->add_childrens_track_by_copy_constructor(_src_childrens_track_number);
 				break;
 			}
 		}
@@ -944,14 +962,14 @@ public:
 		}
 		return result;
 	}
-	bool add_adults_track_by_copy_constructor(int _swimming_pool_number, adults_track& src_object)
+	bool add_adults_track_by_copy_constructor(int _src_swimming_pool_number, int _src_adults_track_number)
 	{
 		bool result = false;
 		for (int i = 0; i < swimming_pools_amount; i++)
 		{
-			if (_swimming_pool_number == swimming_pools[i]->get_swimming_pool_number())
+			if (_src_swimming_pool_number == swimming_pools[i]->get_swimming_pool_number())
 			{
-				result = swimming_pools[i]->add_adults_track_by_copy_constructor(src_object);
+				result = swimming_pools[i]->add_adults_track_by_copy_constructor(_src_adults_track_number);
 				break;
 			}
 		}
@@ -1095,13 +1113,18 @@ int main()
 		cout << ">>> >>> 1. Конструктором по умолчанию" << endl;
 		cout << ">>> >>> 2. Конструктором с параметрами" << endl;
 		cout << ">>> >>> 3. Конструктором копии" << endl;
-		cout << ">>> 2. Дорожку" << endl;
+		cout << ">>> 2. Детскую дорожку" << endl;
+		cout << ">>> >>> 1. Конструктором по умолчанию" << endl;
+		cout << ">>> >>> 2. Конструктором с параметрами" << endl;
+		cout << ">>> >>> 3. Конструктором копии" << endl;
+		cout << ">>> 3. Взрослую дорожку" << endl;
 		cout << ">>> >>> 1. Конструктором по умолчанию" << endl;
 		cout << ">>> >>> 2. Конструктором с параметрами" << endl;
 		cout << ">>> >>> 3. Конструктором копии" << endl;
 		cout << "4. Убрать: " << endl;
 		cout << ">>> 1. Бассейн" << endl;
-		cout << ">>> 2. Дорожку" << endl;
+		cout << ">>> 2. Детскую дорожку" << endl;
+		cout << ">>> 3. Взрослую дорожку" << endl;
 		cout << "5. Поместить человека:" << endl;
 		cout << ">>> 1. На детскую дорожку" << endl;
 		cout << ">>> 2. На взрослую дорожку" << endl;
@@ -1153,25 +1176,40 @@ int main()
 					case 1:
 					{
 						cout << "Меню взаимодействия: Вывести на экран: Спортивный комплекс" << endl;
-
+						a.output_sport_complex();
 						break;
 					}
 					case 2:
 					{
 						cout << "Меню взаимодействия: Вывести на экран: Бассейн" << endl;
-
+						int swimming_pool_number = 0;
+						cout << "Введите номер бассейна: ";
+						cin >> swimming_pool_number;
+						a.output_swimming_pool(swimming_pool_number);
 						break;
 					}
 					case 3:
 					{
 						cout << "Меню взаимодействия: Вывести на экран: Детскую дорожку" << endl;
-
+						int swimming_pool_number = 0;
+						int childrens_track_number = 0;
+						cout << "Введите номер бассейна: ";
+						cin >> swimming_pool_number;
+						cout << "Введите номер детской дорожки: ";
+						cin >> childrens_track_number;
+						a.output_childrens_track(swimming_pool_number, childrens_track_number);
 						break;
 					}
 					case 4:
 					{
 						cout << "Меню взаимодействия: Вывести на экран: Взрослую дорожку" << endl;
-
+						int swimming_pool_number = 0;
+						int adults_track_number = 0;
+						cout << "Введите номер бассейна: ";
+						cin >> swimming_pool_number;
+						cout << "Введите номер взрослой дорожки дорожки: ";
+						cin >> adults_track_number;
+						a.output_adults_track(swimming_pool_number, adults_track_number);
 						break;
 					}
 				}
@@ -1201,25 +1239,52 @@ int main()
 					case 1:
 					{
 						cout << "Меню взаимодействия: Изменить: Название спортивного комплекса" << endl;
-
+						string settable_name_sport_complex = "";
+						cout << "Введите новое название спортивного комплекса: ";
+						cin >> settable_name_sport_complex;
+						a.set_name_sport_complex(settable_name_sport_complex);
 						break;
 					}
 					case 2:
 					{
 						cout << "Меню взаимодействия: Изменить: Номер бассейна" << endl;
-
+						int swimming_pool_number = 0;
+						int settable_swimming_pool_number = 0;
+						cout << "Введите номер бассейна, для которого будет изменён номер: ";
+						cin >> swimming_pool_number;
+						cout << "Введите новый номер бассейна: ";
+						cin >> settable_swimming_pool_number;
+						a.set_swimming_pool_number(swimming_pool_number, settable_swimming_pool_number);
 						break;
 					}
 					case 3:
 					{
 						cout << "Меню взаимодействия: Изменить: Номер детской дорожки" << endl;
-
+						int swimming_pool_number = 0;
+						int childrens_track_number = 0;
+						int settable_childrens_track_number = 0;
+						cout << "Введите номер бассейна: ";
+						cin >> swimming_pool_number;
+						cout << "Введите номер детской дорожки, для которой будет изменён номер: ";
+						cin >> childrens_track_number;
+						cout << "Введите новый номер дорожки: ";
+						cin >> settable_childrens_track_number;
+						a.set_childrens_track_number(swimming_pool_number, childrens_track_number, settable_childrens_track_number);
 						break;
 					}
 					case 4:
 					{
 						cout << "Меню взаимодействия: Изменить: Номер взрослой дорожки" << endl;
-
+						int swimming_pool_number = 0;
+						int adults_track_number = 0;
+						int settable_adults_track_number = 0;
+						cout << "Введите номер бассейна: ";
+						cin >> swimming_pool_number;
+						cout << "Введите номер взрослой дорожки, для которой будет изменён номер: ";
+						cin >> adults_track_number;
+						cout << "Введите новый номер дорожки: ";
+						cin >> settable_adults_track_number;
+						a.set_adults_track_number(swimming_pool_number, adults_track_number, settable_adults_track_number);
 						break;
 					}
 				}
@@ -1233,13 +1298,17 @@ int main()
 				cout << ">>> 1. Конструктором по умолчанию" << endl;
 				cout << ">>> 2. Конструктором с параметрами" << endl;
 				cout << ">>> 3. Конструктором копии" << endl;
-				cout << "2. Дорожку" << endl;
+				cout << "2. Детскую дорожку" << endl;
+				cout << ">>> 1. Конструктором по умолчанию" << endl;
+				cout << ">>> 2. Конструктором с параметрами" << endl;
+				cout << ">>> 3. Конструктором копии" << endl;
+				cout << "3. Взрослую дорожку" << endl;
 				cout << ">>> 1. Конструктором по умолчанию" << endl;
 				cout << ">>> 2. Конструктором с параметрами" << endl;
 				cout << ">>> 3. Конструктором копии" << endl;
 				cout << "Номер дейсвия: ";
 				cin >> s_cmd;
-				while (s_cmd < 0 || s_cmd > 2)
+				while (s_cmd < 0 || s_cmd > 3)
 				{
 					cout << "[Ошибка]: введён некорректный номер действия. Номер действия: ";
 					cin >> s_cmd;
@@ -1271,19 +1340,64 @@ int main()
 							case 1:
 							{
 								cout << "Меню взаимодействия: Добавить: Бассейн: Конструктором по умолчанию" << endl;
-
+								if (a.add_swimming_pool_by_default_constructor())
+								{
+									cout << "Бассейн успешно создан конструктором по умолчанию" << endl;
+								}
+								else
+								{
+									cout << "[Ошибка]: не удалось создать бассейн конструктором по умолчанию" << endl;
+								}
 								break;
 							}
 							case 2:
 							{
 								cout << "Меню взаимодействия: Добавить: Бассейн: Конструктором с параметрами" << endl;
-
+								int swimming_pool_number = 0;
+								int max_childrens_tracks_amount = 0;
+								int childrens_tracks_amount = 0;
+								int max_adults_tracks_amount = 0;
+								int adults_tracks_amount = 0;
+								double max_depth = 0.0;
+								double lenght = 0.0;
+								cout << "Введите номер бассейна: ";
+								cin >> swimming_pool_number;
+								cout << "Введите макисмальное количество детских дорожек: ";
+								cin >> max_childrens_tracks_amount;
+								cout << "Введите количество детских дорожек: ";
+								cin >> childrens_tracks_amount;
+								cout << "Введите макисмальное количество взрослых дорожек: ";
+								cin >> max_adults_tracks_amount;
+								cout << "Введите количество взрослых дорожек: ";
+								cin >> adults_tracks_amount;
+								cout << "Введите максимальную глубину бассейна (в метрах): ";
+								cin >> max_depth;
+								cout << "Введите длину бассейна (в метрах): ";
+								cin >> lenght;
+								if (a.add_swimming_pool_by_constructor_with_parameters(swimming_pool_number, max_childrens_tracks_amount, childrens_tracks_amount, max_adults_tracks_amount, adults_tracks_amount, max_depth, lenght))
+								{
+									cout << "Бассейн успешно создан конструктором с параметрами" << endl;
+								}
+								else
+								{
+									cout << "[Ошибка]: не удалось создать бассейн конструктором с параметрами" << endl;
+								}
 								break;
 							}
 							case 3:
 							{
 								cout << "Меню взаимодействия: Добавить: Бассейн: Конструктором копии" << endl;
-
+								int src_swimming_pool_number = 0;
+								cout << "Введите номер бассейна, с которого нужно сделать копию: ";
+								cin >> src_swimming_pool_number;
+								if (a.add_swimming_pool_by_copy_constructor(src_swimming_pool_number))
+								{
+									cout << "Бассейн успешно создан конструктором копии" << endl;
+								}
+								else
+								{
+									cout << "[Ошибка]: не удалось создать бассейн конструктором копии" << endl;
+								}
 								break;
 							}
 						}
@@ -1291,7 +1405,7 @@ int main()
 					}
 					case 2:
 					{
-						cout << "Меню взаимодействия: Добавить: Дорожку" << endl;
+						cout << "Меню взаимодействия: Добавить: Детскую дорожку" << endl;
 						cout << ">>> 1. Конструктором по умолчанию" << endl;
 						cout << ">>> 2. Конструктором с параметрами" << endl;
 						cout << ">>> 3. Конструктором копии" << endl;
@@ -1303,28 +1417,173 @@ int main()
 						}
 						switch (s_cmd)
 						{
-						case 0:
-						{
-							break;
+							case 0:
+							{
+								break;
+							}
+							case 1:
+							{
+								cout << "Меню взаимодействия: Добавить: Детскую дорожку: Конструктором по умолчанию" << endl;
+								int swimming_pool_number = 0;
+								cout << "Введите номер бассейна: ";
+								cin >> swimming_pool_number;
+								if (a.add_childrens_track_by_default_constructor(swimming_pool_number))
+								{
+									cout << "Детская дорожка успешно создана конструктором по умолчанию" << endl;
+								}
+								else
+								{
+									cout << "[Ошибка]: не удалось создать детскую дорожку конструктором по умолчанию" << endl;
+								}
+								break;
+							}
+							case 2:
+							{
+								cout << "Меню взаимодействия: Добавить: Детскую дорожку: Конструктором с параметрами" << endl;
+								int swimming_pool_number = 0;
+								int track_number = 0;
+								int max_people_amount = 0;
+								int people_amount = 0;
+								cout << "Введите номер бассейна: ";
+								cin >> swimming_pool_number;
+								cout << "Введите номер дорожки: ";
+								cin >> track_number;
+								cout << "Введите максимальное количество людей на дорожке: ";
+								cin >> max_people_amount;
+								cout << "Введите количество людей на дорожке: ";
+								cin >> people_amount;
+								if (a.add_childrens_track_by_constructor_with_parameters(swimming_pool_number, track_number, max_people_amount, people_amount))
+								{
+									int human_age;
+									for (int i = 0; i < people_amount; i++)
+									{
+										cout << "Введите возраст человека №" << i + 1 << ": ";
+										cin >> human_age;
+										if (!(a.let_human_on_childrens_track(swimming_pool_number, track_number, human_age)))
+										{
+											cout << "[Ошибка]: не удалось поместить на детскую дорожку человека данного возраста. ";
+											i--;
+										}
+									}
+									cout << "Детская дорожка успешно создана конструктором с параметрами" << endl;
+								}
+								else
+								{
+									cout << "[Ошибка]: не удалось создать детскую дорожку конструктором с параметрами" << endl;
+								}
+								break;
+							}
+							case 3:
+							{
+								cout << "Меню взаимодействия: Добавить: Детскую дорожку: Конструктором копии" << endl;
+								int src_swimming_pool_number = 0;
+								int src_childrens_track_number = 0;
+								cout << "Введите номер бассейна, с детской дорожки которого нужно сделать копию: ";
+								cin >> src_swimming_pool_number;
+								cout << "Введите номер детской дорожки, с которой нужно сделать копию: ";
+								cin >> src_childrens_track_number;
+								if (a.add_childrens_track_by_copy_constructor(src_swimming_pool_number, src_childrens_track_number))
+								{
+									cout << "Детская дорожка успешно создана конструктором копии" << endl;
+								}
+								else
+								{
+									cout << "[Ошибка]: не удалось создать детскую дорожку конструктором копии" << endl;
+								}
+								break;
+							}
 						}
-						case 1:
+						break;
+					}
+					case 3:
+					{
+						cout << "Меню взаимодействия: Добавить: Взрослую дорожку" << endl;
+						cout << ">>> 1. Конструктором по умолчанию" << endl;
+						cout << ">>> 2. Конструктором с параметрами" << endl;
+						cout << ">>> 3. Конструктором копии" << endl;
+						cin >> s_cmd;
+						while (s_cmd < 0 || s_cmd > 3)
 						{
-							cout << "Меню взаимодействия: Добавить: Дорожку: Конструктором по умолчанию" << endl;
-
-							break;
+							cout << "[Ошибка]: введён некорректный номер действия. Номер действия: ";
+							cin >> s_cmd;
 						}
-						case 2:
+						switch (s_cmd)
 						{
-							cout << "Меню взаимодействия: Добавить: Дорожку: Конструктором с параметрами" << endl;
-
-							break;
-						}
-						case 3:
-						{
-							cout << "Меню взаимодействия: Добавить: Дорожку: Конструктором копии" << endl;
-
-							break;
-						}
+							case 0:
+							{
+								break;
+							}
+							case 1:
+							{
+								cout << "Меню взаимодействия: Добавить: Взрослую дорожку: Конструктором по умолчанию" << endl;
+								int swimming_pool_number = 0;
+								cout << "Введите номер бассейна: ";
+								cin >> swimming_pool_number;
+								if (a.add_adults_track_by_default_constructor(swimming_pool_number))
+								{
+									cout << "Взрослая дорожка успешно создана конструктором по умолчанию" << endl;
+								}
+								else
+								{
+									cout << "[Ошибка]: не удалось создать взрослую дорожку конструктором по умолчанию" << endl;
+								}
+								break;
+							}
+							case 2:
+							{
+								cout << "Меню взаимодействия: Добавить: Взрослую дорожку: Конструктором с параметрами" << endl;
+								int swimming_pool_number = 0;
+								int track_number = 0;
+								int max_people_amount = 0;
+								int people_amount = 0;
+								cout << "Введите номер бассейна: ";
+								cin >> swimming_pool_number;
+								cout << "Введите номер дорожки: ";
+								cin >> track_number;
+								cout << "Введите максимальное количество людей на дорожке: ";
+								cin >> max_people_amount;
+								cout << "Введите количество людей на дорожке: ";
+								cin >> people_amount;
+								if (a.add_adults_track_by_constructor_with_parameters(swimming_pool_number, track_number, max_people_amount, people_amount))
+								{
+									int human_age;
+									for (int i = 0; i < people_amount; i++)
+									{
+										cout << "Введите возраст человека №" << i + 1 << ": ";
+										cin >> human_age;
+										if (!(a.let_human_on_adults_track(swimming_pool_number, track_number, human_age)))
+										{
+											cout << "[Ошибка]: не удалось поместить на взрослую дорожку человека данного возраста. ";
+											i--;
+										}
+									}
+									cout << "Взрослая дорожка успешно создана конструктором с параметрами" << endl;
+								}
+								else
+								{
+									cout << "[Ошибка]: не удалось создать взрослую дорожку конструктором с параметрами" << endl;
+								}
+								break;
+							}
+							case 3:
+							{
+								cout << "Меню взаимодействия: Добавить: Взрослую дорожку: Конструктором копии" << endl;
+								int src_swimming_pool_number = 0;
+								int src_adults_track_number = 0;
+								cout << "Введите номер бассейна, с взрослой дорожки которого нужно сделать копию: ";
+								cin >> src_swimming_pool_number;
+								cout << "Введите номер взрослой дорожки, с которой нужно сделать копию: ";
+								cin >> src_adults_track_number;
+								if (a.add_childrens_track_by_copy_constructor(src_swimming_pool_number, src_adults_track_number))
+								{
+									cout << "Взрослая дорожка успешно создана конструктором копии" << endl;
+								}
+								else
+								{
+									cout << "[Ошибка]: не удалось создать взрослую дорожку конструктором копии" << endl;
+								}
+								break;
+							}
 						}
 						break;
 					}
@@ -1336,10 +1595,11 @@ int main()
 				int s_cmd = 0;
 				cout << "Меню взаимодействия: Убрать:" << endl;
 				cout << "1. Бассейн" << endl;
-				cout << "2. Дорожку" << endl;
+				cout << "2. Детскую дорожку" << endl;
+				cout << "3. Взрослую дорожку" << endl;
 				cout << "Номер дейсвия: ";
 				cin >> s_cmd;
-				while (s_cmd < 0 || s_cmd > 2)
+				while (s_cmd < 0 || s_cmd > 3)
 				{
 					cout << "[Ошибка]: введён некорректный номер действия. Номер действия: ";
 					cin >> s_cmd;
@@ -1353,13 +1613,55 @@ int main()
 					case 1:
 					{
 						cout << "Меню взаимодействия: Убрать: Бассейн" << endl;
-
+						int swimming_pool_number = 0;
+						cout << "Введите номер бассейна: ";
+						cin >> swimming_pool_number;
+						if (a.delete_swimming_pool(swimming_pool_number))
+						{
+							cout << "Бассейн успешно удалён" << endl;
+						}
+						else
+						{
+							cout << "[Ошибка]: не удалось удалить бассейн" << endl;
+						}
 						break;
 					}
 					case 2:
 					{
-						cout << "Меню взаимодействия: Убрать: Дорожку" << endl;
-
+						cout << "Меню взаимодействия: Убрать: Детскую дорожку" << endl;
+						int swimming_pool_number = 0;
+						int childrens_track_number = 0;
+						cout << "Введите номер бассейна, детскую дорожку которого нужно удалить: ";
+						cin >> swimming_pool_number;
+						cout << "Введите номер детской дорожки: ";
+						cin >> childrens_track_number;
+						if (a.delete_childrens_track(swimming_pool_number, childrens_track_number))
+						{
+							cout << "Детская дорожка успешно удалена" << endl;
+						}
+						else
+						{
+							cout << "[Ошибка]: не удалось удалить детскую дорожку" << endl;
+						}
+						break;
+					}
+					case 3:
+					{
+						cout << "Меню взаимодействия: Убрать: Взрослую дорожку" << endl;
+						int swimming_pool_number = 0;
+						int adults_track_number = 0;
+						cout << "Введите номер бассейна, взрослую дорожку которого нужно удалить: ";
+						cin >> swimming_pool_number;
+						cout << "Введите номер взрослой дорожки: ";
+						cin >> adults_track_number;
+						if (a.delete_adults_track(swimming_pool_number, adults_track_number))
+						{
+							cout << "Взрослая дорожка успешно удалена" << endl;
+						}
+						else
+						{
+							cout << "[Ошибка]: не удалось удалить взрослую дорожку" << endl;
+						}
 						break;
 					}
 				}
@@ -1387,13 +1689,45 @@ int main()
 					case 1:
 					{
 						cout << "Меню взаимодействия: Поместить человека: На детскую дорожку" << endl;
-
+						int swimming_pool_number = 0;
+						int childrens_track_number = 0;
+						int human_age = 0;
+						cout << "Введите номер бассейна: ";
+						cin >> swimming_pool_number;
+						cout << "Введите номер детской дорожки: ";
+						cin >> childrens_track_number;
+						cout << "Введите возраст человека: ";
+						cin >> human_age;
+						if (a.let_human_on_childrens_track(swimming_pool_number, childrens_track_number, human_age))
+						{
+							cout << "Человек помещён на детскую дорожку успешно" << endl;
+						}
+						else
+						{
+							cout << "[Ошибка]: не удалось поместить человека на детскую дорожку" << endl;
+						}
 						break;
 					}
 					case 2:
 					{
 						cout << "Меню взаимодействия: Поместить человека: На взрослую дорожку" << endl;
-
+						int swimming_pool_number = 0;
+						int adults_track_number = 0;
+						int human_age = 0;
+						cout << "Введите номер бассейна: ";
+						cin >> swimming_pool_number;
+						cout << "Введите номер взрослой дорожки: ";
+						cin >> adults_track_number;
+						cout << "Введите возраст человека: ";
+						cin >> human_age;
+						if (a.let_human_on_childrens_track(swimming_pool_number, adults_track_number, human_age))
+						{
+							cout << "Человек помещён на взрослую дорожку успешно" << endl;
+						}
+						else
+						{
+							cout << "[Ошибка]: не удалось поместить человека на взрослую дорожку" << endl;
+						}
 						break;
 					}
 				}
@@ -1445,13 +1779,45 @@ int main()
 							case 1:
 							{
 								cout << "Меню взаимодействия: Убрать человека: Убрать одного человека: С детской дорожки" << endl;
-
+								int swimming_pool_number = 0;
+								int childrens_track_number = 0;
+								int human_number = 0;
+								cout << "Введите номер бассейна: ";
+								cin >> swimming_pool_number;
+								cout << "Введите номер детской дорожки: ";
+								cin >> childrens_track_number;
+								cout << "Введите номер человека п/п: ";
+								cin >> human_number;
+								if (a.remove_human_from_childrens_track(swimming_pool_number, childrens_track_number, human_number - 1))
+								{
+									cout << "Человек успешно убран с детской дорожки" << endl;
+								}
+								else
+								{
+									cout << "[Ошибка]: не удалось убрать человека с детской дорожки" << endl;
+								}
 								break;
 							}
 							case 2:
 							{
 								cout << "Меню взаимодействия: Убрать человека: Убрать одного человека: С взрослой дорожки" << endl;
-
+								int swimming_pool_number = 0;
+								int adults_track_number = 0;
+								int human_number = 0;
+								cout << "Введите номер бассейна: ";
+								cin >> swimming_pool_number;
+								cout << "Введите номер взрослой дорожки: ";
+								cin >> adults_track_number;
+								cout << "Введите номер человека п/п: ";
+								cin >> human_number;
+								if (a.remove_human_from_adults_track(swimming_pool_number, adults_track_number, human_number - 1))
+								{
+									cout << "Человек успешно убран с взролой дорожки" << endl;
+								}
+								else
+								{
+									cout << "[Ошибка]: не удалось убрать человека с взрослой дорожки" << endl;
+								}
 								break;
 							}
 						}
@@ -1480,25 +1846,61 @@ int main()
 							case 1:
 							{
 								cout << "Меню взаимодействия: Убрать человека: Убрать всех людей: С детской дорожки" << endl;
-
+								int swimming_pool_number = 0;
+								int childrens_track_number = 0;
+								cout << "Введите номер бассейна: ";
+								cin >> swimming_pool_number;
+								cout << "Введите номер детской дорожки: ";
+								cin >> childrens_track_number;
+								if (a.remove_all_humans_from_childrens_track(swimming_pool_number, childrens_track_number))
+								{
+									cout << "Все люди успешно убраны с детской дорожки" << endl;
+								}
+								else
+								{
+									cout << "[Ошибка]: не удалось убрать всех людей с детской дорожки" << endl;
+								}
 								break;
 							}
 							case 2:
 							{
 								cout << "Меню взаимодействия: Убрать человека: Убрать всех людей: С взрослой дорожки" << endl;
-
+								int swimming_pool_number = 0;
+								int adults_track_number = 0;
+								cout << "Введите номер бассейна: ";
+								cin >> swimming_pool_number;
+								cout << "Введите номер взрослой дорожки: ";
+								cin >> adults_track_number;
+								if (a.remove_all_humans_from_adults_track(swimming_pool_number, adults_track_number))
+								{
+									cout << "Все люди успешно убраны с взрослой дорожки" << endl;
+								}
+								else
+								{
+									cout << "[Ошибка]: не удалось убрать всех людей с взрослой дорожки" << endl;
+								}
 								break;
 							}
 							case 3:
 							{
 								cout << "Меню взаимодействия: Убрать человека: Убрать всех людей: С бассейна" << endl;
-
+								int swimming_pool_number = 0;
+								cout << "Введите номер бассейна: ";
+								cin >> swimming_pool_number;
+								if (a.remove_all_humans_from_swimming_pool(swimming_pool_number))
+								{
+									cout << "Все люди успешно убраны с бассейна" << endl;
+								}
+								else
+								{
+									cout << "[Ошибка]: не удалось убрать всех людей с бассейна" << endl;
+								}
 								break;
 							}
 							case 4:
 							{
 								cout << "Меню взаимодействия: Убрать человека: Убрать всех людей: С спортивного комплекса" << endl;
-
+								a.remove_all_humans_from_sport_complex();
 								break;
 							}
 						}
