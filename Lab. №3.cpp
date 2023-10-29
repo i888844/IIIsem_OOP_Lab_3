@@ -110,7 +110,7 @@ public:
 	}
 	void let_human_on_track(int _human_age)
 	{
-		peoples_ages[people_amount + 1] = _human_age;
+		peoples_ages[people_amount] = _human_age;
 		people_amount++;
 	}
 	void remove_human_from_track(int _human_number)
