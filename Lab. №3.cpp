@@ -253,7 +253,7 @@ public:
 			lenght = 25.0;
 		}
 	}
-	swimming_pool(swimming_pool& src_object)
+	swimming_pool(const swimming_pool& src_object)
 	{
 		int i = 0;
 		int j = 0;
@@ -705,7 +705,7 @@ public:
 			swimming_pools[i] = new swimming_pool(i + 1, 2, 2, 3, 3, 5.0, 25.0);
 		}
 	}
-	sport_complex(sport_complex& src_object)
+	sport_complex(const sport_complex& src_object)
 	{
 		int j = 0;
 		name_sport_complex = src_object.name_sport_complex;
